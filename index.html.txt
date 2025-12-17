@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Trip Expense Manager</title>
+
+  <link rel="manifest" href="manifest.json" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#16a34a" />
+
+  <style>
+    body { font-family: Arial; background:#f3f4f6; padding:10px; }
+    .card { background:#fff; padding:15px; margin-bottom:10px; border-radius:8px; }
+    input { width:100%; padding:8px; margin:4px 0; }
+    button { width:100%; padding:10px; background:#16a34a; color:white; border:none; border-radius:6px; }
+  </style>
+</head>
+
+<body>
+  <h2>🚐 Trip Expense Manager</h2>
+
+  <div class="card">
+    <b>Total Trip Amount</b>
+    <input id="income" type="number" placeholder="Total amount">
+    <b>Advance Received</b>
+    <input id="advance" type="number" placeholder="Advance">
+    <p>Remaining: Rs <span id="remaining">0</span></p>
+  </div>
+
+  <div class="card">
+    <b>Car Rent</b>
+    <input id="carTotal" type="number" placeholder="Total car rent">
+    <input id="carAdvance" type="number" placeholder="Advance paid">
+  </div>
+
+  <div class="card">
+    <b>Hotel (Rooms)</b>
+    <input id="rooms" type="number" placeholder="Rooms">
+    <input id="rate" type="number" placeholder="Rate per room">
+    <input id="nights" type="number" placeholder="Nights">
+    <input id="hotelAdvance" type="number" placeholder="Advance paid">
+  </div>
+
+  <div class="card">
+    <b>Fuel</b>
+    <input class="fuel" type="number" placeholder="Fuel amount">
+    <button onclick="addFuel()">+ Add Fuel</button>
+  </div>
+
+  <div class="card">
+    <b>Food (per day)</b>
+    <input class="food" type="number" placeholder="Food amount">
+    <button onclick="addFood()">+ Add Day</button>
+  </div>
+
+  <button onclick="calculate()">Calculate Summary</button>
+
+  <div class="card">
+    <b>Total Expenses:</b> Rs <span id="expenses">0</span><br>
+    <b>Profit / Loss:</b> Rs <span id="profit">0</span>
+  </div>
+
+<script>
+function addFuel(){
+  document.querySelector('.card:nth-of-type(4)')
+    .insertAdjacentHTML('beforeend','<input class=\"fuel\" type=\"number\" placeholder=\"Fuel amount\">');
+}
+function addFood(){
+  document.querySelector('.card:nth-of-type(5)')
+    .insertAdjacentHTML('beforeend','<input class=\"food\" type=\"number\" placeholder=\"Food amount\">');
+}
+function calculate(){
+  let income = +incomeEl.value;
+  let advance = +advanceEl.value;
+  remaining.textContent = income - advance;
+
+  let expenses = 0;
+  document.querySelectorAll('input').forEach(i => expenses += +i.value || 0);
+
+  expenses -= income + advance;
+  expenses = Math.abs(expenses);
+
+  expensesEl.textContent = expenses;
+  profit.textContent = income - expenses;
+}
+
+const incomeEl = document.getElementById('income');
+const advanceEl = document.getElementById('advance');
+const remaining = document.getElementById('remaining');
+const expensesEl = document.getElementById('expenses');
+const profit = document.getElementById('profit');
+</script>
+
+</body>
+</html>
